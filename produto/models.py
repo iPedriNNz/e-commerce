@@ -29,6 +29,7 @@ class Produto(models.Model):
         )
     )
 
+    # Redimensionamento de imagem do produto
     @staticmethod
     def resize_image(img, new_width=800):
         img_full_path = os.path.join(settings.MEDIA_ROOT, img.name)
@@ -41,9 +42,7 @@ class Produto(models.Model):
             return
         
         new_height = round((new_width * original_height) / original_width)
-        
         new_img = img_pil.resize((new_width, new_height), Image.LANCZOS)
-        
         new_img.save(
             img_full_path, 
             optimize=True, 
@@ -54,9 +53,7 @@ class Produto(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-
         max_image_size = 800
-
         if self.imagem:
             self.resize_image(self.imagem, max_image_size)
 

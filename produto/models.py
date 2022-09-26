@@ -20,7 +20,7 @@ class Produto(models.Model):
         upload_to='produto_imagens/%Y/%m/', blank=False, null=False)
     slug = models.SlugField(unique=True, blank=True, null=True)
     preco_marketing = models.FloatField(default=0, verbose_name='Preço')
-    preco_marketing_promocional = models.FloatField(default=0, verbose_name='Preço Promo')
+    preco_marketing_promocional = models.FloatField(default=0, verbose_name='Preço Promo', blank=True, null=True)
     tipo = models.CharField(
         default='V',
         max_length=1,
@@ -38,7 +38,7 @@ class Produto(models.Model):
     
     def get_preco_promo_formatado(self):
         return f'R$ {self.preco_marketing_promocional:.2f}'.replace('.', ',')
-    get_preco_promo_formatado.short_description  = 'Preço Promocional'
+    get_preco_promo_formatado.short_description  = 'Preço Promo'
 
 
     # Redimensionamento de imagem do produto

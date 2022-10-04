@@ -31,7 +31,7 @@ class Produto(models.Model):
     )
     
     
-    # Formatação do preço formatado exibido na area admin
+    # Formatação da exibição do preço
     def get_preco_formatado(self):
         return f'R$ {self.preco_marketing:.2f}'.replace('.', ',')
     get_preco_formatado.short_description  = 'Preço'
@@ -82,8 +82,17 @@ class Variacao(models.Model):
     nome = models.CharField(max_length=50, blank=True, null=True)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     preco = models.FloatField()
-    preco_promo = models.FloatField(default=0)
+    preco_promocional = models.FloatField(default=0)
     estoque = models.PositiveIntegerField(default=1)
+    
+    # Formatação da exibição do preço
+    def get_preco_formatado(self):
+        return f'R$ {self.preco:.2f}'.replace('.', ',')
+    get_preco_formatado.short_description  = 'Preço'
+    
+    def get_preco_promo_formatado(self):
+        return f'R$ {self.preco_promocional:.2f}'.replace('.', ',')
+    get_preco_promo_formatado.short_description  = 'Preço Promo'
     
     def __str__(self):
         return self.nome or self.produto.nome
